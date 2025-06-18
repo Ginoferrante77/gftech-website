@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GFTECH Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      text-align: center;
+      padding: 40px;
+      color: #333;
+    }
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      background-color: #4B61D1;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #3b4eb4;
+    }
+    .info {
+      margin: 20px 0;
+      font-size: 16px;
+    }
+    a.buy-link {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #4B61D1;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>GFTECH Dashboard</h2>
+    <button onclick="connectWallet()">Se connecter avec Metamask</button>
+    <div class="info">
+      <p><strong>Adresse :</strong> <span id="userAddress">Non connecté</span></p>
+      <p><strong>Solde GFTECH :</strong> <span id="userBalance">-</span></p>
+    </div>
+    <a class="buy-link" href="https://quickswap.exchange/#/swap?inputCurrency=ETH&outputCurrency=0x0473e08f6FA914cd3c09Db15D7d643F49Bac0415" target="_blank">Acheter GFTECH sur QuickSwap</a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
+  <script>
+    const contractAddress = "0x0473e08f6FA914cd3c09Db15D7d643F49Bac0415";
+    const abi = [
+      "function balanceOf(address) view returns (uint256)",
+      "function decimals() view returns (uint8)"
+    ];
+
+    let provider, signer, contract;
+
+    async function connectWallet() {
+      if (typeof window.ethereum !== 'undefined') {
+        provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        signer = provider.getSigner();
+        const address = await signer.getAddress();
+        document.getElementById("userAddress").innerText = address;
+
+        contract = new ethers.Contract(contractAddress, abi, provider);
+        const balance = await contract.balanceOf(address);
+        const decimals = await contract.decimals();
+        const readable = ethers.utils.formatUnits(balance, decimals);
+        document.getElementById("userBalance").innerText = parseFloat(readable).toLocaleString("fr-FR") + " GFTECH";
+      } else {
+        alert("Metamask n'est pas installé !");
+      }
+    }
+  </script>
+</body>
+</html>
