@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GFTECH — A Token for a Better World</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <style>
+    :root {
+      --blue: #4B61D1;
+      --violet: #A68DF0;
+      --white: #ffffff;
+      --glass: rgba(255, 255, 255, 0.14);
+      --glass-border: rgba(255, 255, 255, 0.28);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Inter, Arial, sans-serif;
+      color: #121212;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      background-size: 200% 200%;
+      animation: bg-move 30s ease-in-out infinite alternate;
+    }
+
+    @keyframes bg-move {
+      0% { background-position: 0% 0%; }
+      100% { background-position: 100% 100%; }
+    }
+
+    header {
+      text-align: center;
+      color: #fff;
+      padding: 64px 16px 32px;
+      position: relative;
+    }
+
+    .language-switch {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      display: flex;
+      gap: 24px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .language-switch a {
+      color: #fff;
+      text-decoration: none;
+      opacity: 0.9;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.3);
+      transition: all 0.2s ease;
+    }
+
+    .language-switch a:hover {
+      opacity: 1;
+      background: rgba(255,255,255,0.15);
+      box-shadow: 0 0 6px rgba(255,255,255,0.5);
+    }
+
+    .logo-wrap {
+      width: 132px;
+      height: 132px;
+      margin: 0 auto 14px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: #fff;
+      box-shadow: 0 0 24px rgba(75,97,209,0.35);
+      overflow: hidden;
+      transform: translateY(8px);
+      animation: pop-in 900ms ease-out 120ms both;
+    }
+
+    .logo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @keyframes pop-in {
+      from { opacity: 0; transform: translateY(16px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    h1 {
+      margin: 6px 0 4px;
+      font-size: 38px;
+      letter-spacing: 0.5px;
+      color: #fff;
+      animation: fade-up 800ms ease-out 160ms both;
+    }
+
+    .tagline {
+      color: #eaf0ff;
+      margin: 2px 0 6px;
+      font-size: 18px;
+      animation: fade-up 800ms ease-out 220ms both;
+    }
+
+    .subline {
+      color: #f6f7ff;
+      opacity: 0.95;
+      font-size: 16px;
+      animation: fade-up 800ms ease-out 280ms both;
+    }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .cta-row {
+      margin-top: 16px;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fade-up 800ms ease-out 360ms both;
+    }
+
+    .btn {
+      background: #fff;
+      color: #283356;
+      border: 0;
+      padding: 12px 18px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+      transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+      opacity: 0.95;
+    }
+
+    .btn.twitter {
+      background: #1DA1F2;
+      color: #fff;
+    }
+
+    .contract {
+      margin-top: 10px;
+      color: #eaf0ff;
+      font-size: 14px;
+    }
+
+    .contract a { color: #fff; }
+
+    main {
+      max-width: 980px;
+      margin: 24px auto 60px;
+      padding: 0 16px;
+    }
+
+    .card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 18px;
+      padding: 22px 20px;
+      color: #fff;
+      backdrop-filter: blur(8px);
+      margin: 18px 0;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: all .7s ease;
+    }
+
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 26px;
+      color: #fff;
+    }
+
+    ul { margin: 10px 0 0 18px; }
+
+    footer {
+      text-align: center;
+      color: #fff;
+      padding: 36px 12px 52px;
+    }
+
+    footer .links a {
+      color: #fff;
+      text-decoration: underline;
+    }
+
+    footer .quote {
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cards = document.querySelectorAll('.card');
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      cards.forEach(c => io.observe(c));
+    });
+  </script>
+</head>
+
+<body>
+  <header>
+    <div class="language-switch">
+      <a href="index.html" title="English">English</a>
+      <a href="index-fr.html" title="Français">Français</a>
+    </div>
+    <div class="logo-wrap">
+      <img src="logo.png?v=2" alt="GFTECH logo" />
+    </div>
+    <h1>GFTECH</h1>
+    <div class="tagline">A Token for a Better World</div>
+    <div class="subline">Empowering humanity through technology and compassion.</div>
+    <div class="cta-row">
+      <a class="btn" href="https://pancakeswap.finance/swap?outputCurrency=0x619C2B48780bFCd6224A17b92378ea71d47270Cd" target="_blank">Buy GFTECH on PancakeSwap</a>
+      <a class="btn twitter" href="https://x.com/GFTECHofficial" target="_blank">Follow on X</a>
+    </div>
+    <div class="contract">
+      Contract: <a href="https://bscscan.com/token/0x619C2B48780bFCd6224A17b92378ea71d47270Cd" target="_blank">0x619C2B48780bFCd6224A17b92378ea71d47270Cd</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Vision</h2>
+      <p><strong>GFTECH</strong> was born from a simple belief: technology can serve humanity and bring people together. With on-chain transparency, every step we take aims at real impact — hope for families, support for mental health, and relief from poverty.</p>
+    </section>
+
+    <section class="card">
+      <h2>A Word from Our Founder</h2>
+      <p><em>“I believe compassion and technology can create a better world.”</em></p>
+      <p>— <strong>Gino Ferrante</strong>, Founder of GFTECH</p>
+    </section>
+
+    <section class="card">
+      <h2>Foundations We Support</h2>
+      <p>Every contribution to GFTECH is a step toward action: <strong>50%</strong> goes directly to humanitarian foundations; the remaining <strong>50%</strong> fuels liquidity, development, and growth of our community-driven ecosystem.</p>
+    </section>
+
+    <section class="card">
+      <h2>Roadmap</h2>
+      <ul>
+        <li>✅ Q4 2025 — Launch on BNB Smart Chain</li>
+        <li>🚀 Q1 2026 — First foundation partnership fund</li>
+        <li>🌍 Q2 2026 — Community expansion & charity events</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Contact</h2>
+      <p>Email: <a style="color:#fff;text-decoration:underline" href="mailto:gino@gftech.tech">gino@gftech.tech</a><br />
+      X (Twitter): <a style="color:#fff;text-decoration:underline" href="https://x.com/GFTECHofficial" target="_blank">@GFTECHofficial</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="quote">“Together, we can make technology serve humanity.”</div>
+    <div class="links">
+      🌐 <a href="https://linkedin.com/company/gftechofficial" target="_blank">LinkedIn</a> &nbsp;|&nbsp;
+      🔗 <a href="https://bscscan.com/token/0x619C2B48780bFCd6224A17b92378ea71d47270Cd" target="_blank">View on BscScan</a> &nbsp;|&nbsp;
+      ✉️ <a href="mailto:gino@gftech.tech">gino@gftech.tech</a>
+    </div>
+  </footer>
+</body>
+</html>
+
